@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class PagesComponent implements OnInit {
-
+  linkTheme = document.querySelector('#theme');
   constructor() { }
 
   ngOnInit(): void {
+    const url = localStorage.getItem('theme') || './assets/css/colors/purple-dark.cs';
+
+    this.linkTheme!.setAttribute('href', url);
   }
+  
 
 }
