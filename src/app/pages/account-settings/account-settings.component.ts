@@ -7,11 +7,14 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class AccountSettingsComponent implements OnInit {
-  public linkTheme = document.querySelector('#theme');
+  public linkTheme  = document.querySelector('#theme');
+  public checkTheme!: NodeListOf<Element>;
   
   constructor() { }
 
   ngOnInit(): void {
+    this.checkTheme = document.querySelectorAll('.selector')
+    this.checkCurrentTheme();
   }
 
   changeTheme( theme: string ) { 
@@ -21,5 +24,21 @@ export class AccountSettingsComponent implements OnInit {
 
     /* Guardamos los cambios que hace el usuario del color en el localStorage */
     localStorage.setItem('theme', url);
+
+    this.checkCurrentTheme();
+  }
+
+  checkCurrentTheme(): void {
+    this.checkTheme.forEach( element => {
+      element.classList.remove('working');
+
+      const btnTheme     = element.getAttribute('data-theme');
+      const btnThemeUrl  = `./assets/css/colors/${ btnTheme }.css`;
+      const currentTheme = this.linkTheme!.getAttribute('href');
+
+      if( btnThemeUrl === currentTheme ) {
+        element.classList.add('working');
+      }
+    });
   }
 }
